@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L’algoritmo di Ada Lovelace</title>
+  <link rel="stylesheet" href="stile.css">
+  <style>
+    .memory-bg {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .memory-container {
+      background: rgba(10, 10, 30, 0.93);
+      border-radius: 18px;
+      box-shadow: 0 0 30px #6a00ff55;
+      padding: 32px 24px 24px 24px;
+      margin-top: 60px;
+      margin-bottom: 40px;
+      width: 420px;
+      max-width: 95vw;
+      z-index: 1;
+    }
+    .memory-title {
+      text-align: center;
+      font-size: 2.2em;
+      color: #ffb3ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px #6a00ff;
+    }
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-gap: 12px;
+      justify-content: center;
+      margin: 30px auto 20px auto;
+    }
+    .card {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #6a00ff 60%, #00e5ff 100%);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #0008;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2em;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 6px #fff8);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .card.flipped img, .card.matched img {
+      opacity: 1;
+    }
+    .card.flipped, .card.matched {
+      background: #e0c3ff;
+      box-shadow: 0 0 18px #b300ff99;
+      cursor: default;
+      transform: scale(1.04);
+    }
+    #reset {
+      display: block;
+      margin: 0 auto 10px auto;
+      padding: 10px 22px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #6a00ff, #00e5ff);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 10px #6a00ff88;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    #reset:hover {
+      background: linear-gradient(90deg, #b300ff, #00e5ff);
+    }
+    #message {
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #00e5ff;
+      min-height: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="parallax-bg"></div>
+  <div class="memory-bg">
+    <div class="memory-container">
+      <div class="memory-title">L’algoritmo di Ada Lovelace</div>
+      <div id="explanation" style="text-align:center; color:#ffb3ff; margin-bottom:18px;"></div>
+      <div id="bernoulli-game"></div>
+      <div id="controls" style="text-align:center; margin-top:18px;"></div>
+    </div>
+  </div>
+  <script>
+    // Mini-gioco: scopri l’algoritmo di Ada Lovelace
+    // Step: spiegazione guidata dell’algoritmo per calcolare i numeri di Bernoulli
+    const steps = [
+      {
+        text: "Ada Lovelace fu la prima a scrivere un algoritmo per una macchina: la Macchina Analitica di Babbage!\n\nScopriamo insieme come calcolare i numeri di Bernoulli, proprio come fece Ada.",
+        action: function() {
+          document.getElementById('bernoulli-game').innerHTML = '';
+        },
+        button: 'Inizia'
+      },
+      {
+        text: "1️⃣ L’algoritmo parte da una tabella vuota.\n\nI numeri di Bernoulli sono una sequenza matematica importante per il calcolo differenziale.",
+        action: function() {
+          renderTable([1]);
+        },
+        button: 'Avanti'
+      },
+      {
+        text: "2️⃣ Si calcola ogni nuovo numero usando una formula ricorsiva.\n\nAda scrisse le istruzioni passo-passo, come in un programma!",
+        action: function() {
+          renderTable([1, null]);
+        },
+        button: 'Calcola il prossimo'
+      },
+      {
+        text: "3️⃣ Applichiamo la formula: B₁ = -1/2\n\nComplimenti, hai calcolato il secondo numero di Bernoulli!",
+        action: function() {
+          renderTable([1, -0.5]);
+        },
+        button: 'Avanti'
+      },
+      {
+        text: "4️⃣ Proviamo a calcolare ancora: B₂ = 1/6\n\nL’algoritmo di Ada permetteva di continuare la sequenza automaticamente.",
+        action: function() {
+          renderTable([1, -0.5, 1/6]);
+        },
+        button: 'Fine'
+      },
+      {
+        text: "Hai seguito i passi dell’algoritmo di Ada Lovelace!\n\nCosì, la Macchina Analitica avrebbe potuto calcolare i numeri di Bernoulli da sola.\n\nAda è considerata la prima programmatrice della storia.",
+        action: function() {
+          renderTable([1, -0.5, 1/6]);
+        },
+        button: 'Ricomincia'
+      }
+    ];
+
+    let currentStep = 0;
+    function renderTable(values) {
+      let html = '<table style="margin:0 auto; border-collapse:separate; border-spacing:10px 0; font-size:1.2em;">';
+      html += '<tr>' + values.map((v,i) => `<th style=\"color:#00e5ff\">B<sub>${i}</sub></th>`).join('') + '</tr>';
+      html += '<tr>' + values.map(v => `<td style=\"background:#fffbe6;border-radius:8px;min-width:50px;text-align:center;color:#6a00ff;font-weight:bold\">${v===null?'?':v}</td>`).join('') + '</tr>';
+      html += '</table>';
+      document.getElementById('bernoulli-game').innerHTML = html;
+    }
+
+    function showStep(idx) {
+      currentStep = idx;
+      document.getElementById('explanation').textContent = steps[idx].text;
+      steps[idx].action();
+      const controls = document.getElementById('controls');
+      controls.innerHTML = '';
+      const btn = document.createElement('button');
+      btn.textContent = steps[idx].button;
+      btn.className = 'memory-button';
+      btn.onclick = () => {
+        if(idx === steps.length-1) showStep(0);
+        else showStep(idx+1);
+      };
+      controls.appendChild(btn);
+    }
+    showStep(0);
+  </script>
+</body>
+</html>
