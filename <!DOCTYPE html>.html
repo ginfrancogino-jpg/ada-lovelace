@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Ada Lovelace - Timeline Interattiva</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+<div class="parallax-bg"></div>
+
+<header>
+    <h1>Ada Lovelace</h1>
+    <p>La visionaria che immaginò i computer prima che esistessero</p>
+</header>
+
+<main>
+
+    <section class="intro">
+        <h2>Chi era Ada Lovelace?</h2>
+        <p>
+            Ada Lovelace (1815–1852) è considerata la prima programmatrice della storia.
+            In un’epoca in cui alle donne era quasi totalmente precluso l’accesso alla scienza,
+            riuscì a sviluppare idee che anticipavano il concetto di software, algoritmi e computer moderni.
+        </p>
+        <a class="memory-button" href="memory.html">Gioca al Memory su Ada</a>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="timeline">
+
+        <!-- STEP 1 -->
+        <div class="step" onclick="toggleStep(this)">
+            <div class="step-header">
+                <div class="step-dot"></div>
+                <h3>1815 — Nascita e infanzia</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/640px-Ada_Lovelace_portrait.jpg">
+                </div>
+                <div class="step-text">
+                    <p>
+                        Ada Lovelace nasce a Londra il 10 dicembre 1815. Figlia del poeta Lord Byron e della matematica Annabella Milbanke,
+                        cresce immersa nello studio della logica e della scienza.
+                    </p>
+                    <p>
+                        A soli 12 anni progetta una “macchina volante”, studiando ali, materiali e forze fisiche:
+                        un segno precoce della sua mente ingegneristica.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" onclick="toggleStep(this)">
+            <div class="step-header">
+                <div class="step-dot"></div>
+                <h3>1833 — L’incontro con Charles Babbage</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Charles_Babbage_-_1860.jpg/640px-Charles_Babbage_-_1860.jpg">
+                </div>
+                <div class="step-text">
+                    <p>
+                        Ada incontra Charles Babbage, inventore della Macchina Differenziale.
+                        Lui la definisce “l’incantatrice dei numeri”.
+                    </p>
+                    <p>
+                        Da questo incontro nasce una collaborazione intellettuale unica:
+                        Ada non è una semplice allieva, ma una mente capace di andare oltre lo stesso Babbage.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" onclick="toggleStep(this)">
+            <div class="step-header">
+                <div class="step-dot"></div>
+                <h3>1842 — Le Note sulla Macchina Analitica</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/AnalyticalMachine_Babbage_London.jpg/640px-AnalyticalMachine_Babbage_London.jpg">
+                </div>
+                <div class="step-text">
+                    <p>
+                        Ada traduce un articolo di Luigi Menabrea e aggiunge note rivoluzionarie
+                        che spiegano come la macchina potesse eseguire operazioni complesse.
+                    </p>
+                    <ul>
+                        <li>introduce il concetto di software</li>
+                        <li>immagina macchine capaci di creare musica</li>
+                        <li>anticipa i computer moderni</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" onclick="toggleStep(this)">
+            <div class="step-header">
+                <div class="step-dot"></div>
+                <h3>1843 — Il primo algoritmo</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Diagram_for_the_computation_of_Bernoulli_numbers.jpg/640px-Diagram_for_the_computation_of_Bernoulli_numbers.jpg">
+                </div>
+                <div class="step-text">
+                    <p>
+                        Ada scrive il primo algoritmo della storia, destinato alla Macchina Analitica.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step" onclick="toggleStep(this)">
+            <div class="step-header">
+                <div class="step-dot"></div>
+                <h3>Le barriere di genere</h3>
+            </div>
+            <div class="step-content">
+                <div class="step-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/640px-Ada_Lovelace_portrait.jpg">
+                </div>
+                <div class="step-text">
+                    <p>
+                        Ada visse in un’epoca in cui alle donne era proibito studiare matematica nelle università.
+                        Le sue note furono pubblicate con le iniziali “A.A.L.” per evitare pregiudizi.
+                    </p>
+                    <p>
+                        Nonostante tutto, Ada:
+                    </p>
+                    <ul>
+                        <li>studiò con i migliori matematici dell’epoca</li>
+                        <li>sviluppò idee che nessun uomo aveva ancora formulato</li>
+                        <li>divenne la prima programmatrice della storia</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+function toggleStep(el) {
+    el.classList.toggle("open");
+}
+
+window.addEventListener('scroll', () => {
+    const bg = document.querySelector('.parallax-bg');
+    const offset = window.pageYOffset;
+    bg.style.transform = 'translateY(' + offset * 0.4 + 'px)';
+});
+</script>
+
+</body>
+</html>
